@@ -7,10 +7,10 @@ import MyLayout from "./components/MyLayout";
 
 import Dashboard from "./pages/dashboard";
 import Users from "./pages/user";
-import ArticleList from "./pages/article/list";
-import ArticleCategories from "./pages/article/categories";
+import ArticleList from "./pages/articles/list";
+import ArticleCategories from "./pages/articles/categories";
 import MedicineList from "./pages/medicine/list";
-import MedecineCategories from "./pages/medicine/categories";
+import MedicineCategories from "./pages/medicine/categories";
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
               <Route path='articles/list' element={<ArticleList />} />
               <Route path='articles/categories' element={<ArticleCategories />} />
               <Route path='medicine/list' element={<MedicineList />} />
-              <Route path='medicine/categories' element={<MedecineCategories />} />
+              <Route path='medicine/categories' element={<MedicineCategories />} />
           </Routes>
       </MyLayout>
 
