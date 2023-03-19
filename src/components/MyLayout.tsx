@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -7,7 +7,7 @@ import {
     VideoCameraOutlined,
     DashboardOutlined
 } from '@ant-design/icons';
-import {Dropdown, Layout, Menu, message, theme, } from 'antd';
+import {Breadcrumb, Dropdown, Layout, Menu, message, theme, } from 'antd';
 import type {MenuProps} from "antd";
 import { useNavigate,useLocation } from "react-router-dom"
 import {defaultImg as logo} from "../utils/tools";
@@ -50,7 +50,26 @@ const sideMenuData =[
         },
 ]
 
+const findDeepPath = (key : string) =>{
+    const result:any = []
+    const findInfo = (arr:any)=>{
+        arr.forEach((item:any) => {
+            const { children,...info } =item;
+            result.push(info)
+            if (children) {
+                findInfo(children)
+            }
+        })
 
+        }
+
+    findInfo(sideMenuData)
+    const tmpData = result.filter((item: any)=>(key.includes(item.key)))
+    if (tmpData.length>0) {
+        return [{label:'首页',key:'/admin/dashboard'},...tmpData]
+}
+    return []
+}
 const findOpenKeys = (key:string) =>{
     const result: string[] = []
     const findInfo = (arr:any)=>{
@@ -72,10 +91,14 @@ const MyLayout = ({children}:any) => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const [breadcrumbs,setBreadcrumbs] = useState<any>([])
 
     const navigate = useNavigate()
     const {pathname} = useLocation()
     const tmpOpenKeys = findOpenKeys(pathname)
+    useEffect(()=>{
+        setBreadcrumbs(findDeepPath(pathname))
+    })
     const items:MenuProps['items']=[{label : ' 个人中心',key : ' userCenter',onClick:()=>{message.info("暂未开通")}},{label : ' 退出',key : ' logOut',onClick:()=>{navigate("/")}}]
     return (
         <Layout style={{ 'width' : '100vw',height : ' 100vh'}} id="components-layout-demo-custom-trigger">
@@ -116,6 +139,17 @@ const MyLayout = ({children}:any) => {
                         background: colorBgContainer,
                     }}
                 >
+                    {/*<Breadcrumb {breadcrumbs.map()} />*/}
+
+                    {/*{breadcrumbs.map((item:any)=>({<Breadcrumb items={[{title:{item.label}}]}/>}))}*/}
+
+                    {/*<Breadcrumb items={(breadcrumbs.map().label)} />*/}
+                    <Breadcrumb>
+                        {breadcrumbs.map((item:any)=>(
+                            <Breadcrumb.Item>{item.label}</Breadcrumb.Item>
+                        ))}
+                    </Breadcrumb>
+
                     {children}
                 </Content>
             </Layout>
