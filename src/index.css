@@ -28,3 +28,7 @@
     display: inline-flex;
 }
 
+.app-title{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
