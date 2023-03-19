@@ -12,13 +12,17 @@ function MedicineCategories() {
         <>
         <Card   title={'药品分类'} extra={<Button type={'primary'} icon={<PlusOutlined/>} onClick={()=>setIsShow(true)}/>}>
             <Space direction={'vertical'} style={{width:'100%'}}>
-                <Form layout={'inline'}>
-                    <Form.Item label={'名字'}>
+                <Form layout={'inline'} onFinish={(v)=>{
+                    message.success("Search OK")
+                    console.log(v)
+                }
+                }>
+                    <Form.Item label={'名字'} name={"name"}>
                         <Input placeholder = {' input name'}/>
                     </Form.Item>
 
-                    <Form.Item label={'名字'}>
-                        <Button type={"default"} icon={<SearchOutlined/>}/>
+                    <Form.Item label={'名字'} name={"search"}>
+                        <Button htmlType={"submit"} type={"default"} icon={<SearchOutlined/>}/>
                     </Form.Item>
                 </Form>
                 <Table columns={[
